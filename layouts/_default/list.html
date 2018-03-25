@@ -5,7 +5,7 @@
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <div class="page-heading">
-              <h1>{{ if .Data.Singular }}#{{ end }}{{ .Title }}</h1>
+              <h2>{{ if .Data.Singular }}#{{ end }}{{ .Title }}</h2>
               <hr class="small">
             </div>
           </div>
@@ -37,7 +37,18 @@
               </a>
 
               <p class="post-meta">
-                {{ default (i18n "dateFormat") .Site.Params.dateformat | .Date.Format | i18n "postedOnDate" }}
+                <i class="fa fa-calendar-o"></i>&nbsp;{{ default (i18n "dateFormat") .Site.Params.dateformat | .Date.Format | i18n "postedOnDate" }}
+
+  {{ if .Site.Params.readingTime }}
+  &nbsp;|&nbsp;
+  <i class="fa fa-clock-o"></i>{{ i18n "readingTime"}} {{ .ReadingTime }} {{ i18n "readTime" }} ({{ .WordCount }} {{ i18n "words" }})
+  {{ end }}
+
+  {{ $lastmodstr := default (i18n "dateFormat") .Site.Params.dateformat | .Lastmod.Format }}
+  {{ $datestr := default (i18n "dateFormat") .Site.Params.dateformat | .Date.Format }}
+  {{ if ne $datestr $lastmodstr }}
+  &nbsp;<br /><i class="fa fa-edit"></i>&nbsp;{{ $lastmodstr | i18n "lastModified"  }}
+  {{ end }}
               </p>
               <div class="post-entry">
                 {{ if .Truncated }}
