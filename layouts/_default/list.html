@@ -1,90 +1,61 @@
 {{ define "header" }}
-  <header class="header-section ">
+<header class="header-section ">
     <div class="intro-header no-img">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <div class="page-heading">
-              <h2>{{ if .Data.Singular }}#{{ end }}{{ .Title }}</h2>
-              <hr class="small">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="page-heading">
+                        <!--<h2>{{ if .Data.Singular }}#{{ end }}{{ .Title }}</h2>
+                            <hr class="small">-->
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </header>
+</header>
 {{ end }}
 {{ define "main" }}
-  <div class="container" role="main">
+<div class="container" role="main">
     <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        {{ with .Content }}
-          <div class="well">
-            {{.}}
-          </div>
-        {{ end }}
-        <div class="posts-list">
-          {{ range .Paginator.Pages }}
-            <article class="post-preview">
-              <a href="{{ .Permalink }}">
-                <h2 class="post-title">{{ .Title }}</h2>
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            {{ with .Content }}
+            <div class="well">
+                {{.}}
+            </div>
+            {{ end }}
 
-                {{ if .Params.subtitle }}
-                  <h3 class="post-subtitle">
-                    {{ .Params.subtitle }}
-                  </h3>
+
+            <div class="posts-list">
+                {{ range .Data.Pages.GroupByDate "2006" "desc" }}
+                <h1>{{ .Key }}</h1>
+                <ul>
+                    {{ range .Pages.ByDate.Reverse.ByWeight }}
+                    <span class="post-preview">
+                        <li>
+                            <!--<a href="{{ .Permalink }}">{{ .Title }} - {{ .Params.subtitle }}</a><br />-->
+                            <h3 class="post-subtitle">
+                                <a href="{{ .Permalink }}">
+                                    {{ .Title }}
+                                </a>
+                                {{ if .Params.subtitle }}
+                                <span class="post-meta">
+                                    -- {{ .Params.subtitle }}
+                                </span>
+                                {{ end }}
+                            </h3>
+                            <h4 class="post-subtitle">
+                            <span class="post-meta">
+                                <i class="fa fa-calendar-o"></i>&nbsp;
+                                {{ default (i18n "dateFormat") .Site.Params.dateformat | .Date.Format | i18n "postedOnDate" }}
+                            </span>
+                            </h4>
+                        </li>
+                    </span>
+                    {{ end }}
+                </ul>
                 {{ end }}
-              </a>
-
-              <p class="post-meta">
-                <i class="fa fa-calendar-o"></i>&nbsp;{{ default (i18n "dateFormat") .Site.Params.dateformat | .Date.Format | i18n "postedOnDate" }}
-
-  {{ if .Site.Params.readingTime }}
-  &nbsp;|&nbsp;
-  <i class="fa fa-clock-o"></i>{{ i18n "readingTime"}} {{ .ReadingTime }} {{ i18n "readTime" }} ({{ .WordCount }} {{ i18n "words" }})
-  {{ end }}
-
-  {{ $lastmodstr := default (i18n "dateFormat") .Site.Params.dateformat | .Lastmod.Format }}
-  {{ $datestr := default (i18n "dateFormat") .Site.Params.dateformat | .Date.Format }}
-  {{ if ne $datestr $lastmodstr }}
-  &nbsp;<br /><i class="fa fa-edit"></i>&nbsp;{{ $lastmodstr | i18n "lastModified"  }}
-  {{ end }}
-              </p>
-              <div class="post-entry">
-                {{ if .Truncated }}
-                  {{ .Summary }}
-                  <a href="{{ .Permalink }}" class="post-read-more">[{{ i18n "readMore" }}]</a>
-                {{ else }}
-                  {{ .Content }}
-                {{ end }}
-              </div>
-
-              {{ if .Params.tags }}
-                <span class="post-meta">
-                  {{ range .Params.tags }}
-                    #<a href="{{ $.Site.LanguagePrefix | absURL }}/tags/{{ . | urlize }}/">{{ . }}</a>&nbsp;
-                  {{ end }}
-                </span>
-              {{ end }}
-
-            </article>
-          {{ end }}
+            </div>
         </div>
-        {{ if or (.Paginator.HasPrev) (.Paginator.HasNext) }}
-          <ul class="pager main-pager">
-            {{ if .Paginator.HasPrev }}
-              <li class="previous">
-                <a href="{{ .URL }}page/{{ .Paginator.Prev.PageNumber }}/">&larr; {{ i18n "newerPosts" }}</a>
-              </li>
-            {{ end }}
-            {{ if .Paginator.HasNext }}
-              <li class="next">
-                <a href="{{ .URL }}page/{{ .Paginator.Next.PageNumber }}/">{{ i18n "olderPosts" }} &rarr;</a>
-              </li>
-            {{ end }}
-          </ul>
-        {{ end }}
-      </div>
     </div>
-  </div>
+</div>
 {{ end }}
