@@ -7,7 +7,6 @@
     <article class="post-preview">
       <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
         {{ range $key, $value := .Data.Terms.Alphabetical }}
-        <!--<div class="panel panel-default">-->
         <div class="panel panel-default">
             <a class="collapsed" role="button" data-toggle="collapse" data-target="#collapse{{ $value.Name }}" data-parent="#accordion"
                href="#" aria-expanded="false" aria-controls="collapse{{ $value.Name }}">
@@ -25,14 +24,7 @@
                 View all</a>
                   {{ range $item := $value.WeightedPages }}
                   <li class="list-group-item">
-                    <a href="{{$item.Permalink}}">{{ $item.Title }}
-                    <span class="post-subtitle">
-                        <span class="post-meta">
-                            <i class="fa fa-calendar-o"></i>&nbsp;
-                            {{ default (i18n "dateFormat") "2006-01-02" | .Date.Format | i18n "postedOnDate" }}
-                        </span>
-                    </span>
-                    </a>
+                    <a href="{{$item.Permalink}}">{{ $item.Title }}</a>
                   </li>
                   {{ end }}
                 </ul>

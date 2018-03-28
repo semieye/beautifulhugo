@@ -5,8 +5,8 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="page-heading">
-                        <!--<h2>{{ if .Data.Singular }}#{{ end }}{{ .Title }}</h2>
-                            <hr class="small">-->
+                        <h2>{{ if .Data.Singular }}#{{ end }}{{ .Title }}</h2>
+                            <hr class="small">
                     </div>
                 </div>
             </div>
@@ -27,13 +27,13 @@
 
             <div class="posts-list">
                 {{ range .Data.Pages.GroupByDate "2006" "desc" }}
-                <h1>{{ .Key }}</h1>
+                <h2>{{ .Key }}</h2>
                 <ul>
                     {{ range .Pages.ByDate.Reverse.ByWeight }}
                     <span class="post-preview">
                         <li>
                             <!--<a href="{{ .Permalink }}">{{ .Title }} - {{ .Params.subtitle }}</a><br />-->
-                            <h3 class="post-subtitle">
+                            <h4 class="post-subtitle">
                                 <a href="{{ .Permalink }}">
                                     {{ .Title }}
                                 </a>
@@ -42,7 +42,7 @@
                                     -- {{ .Params.subtitle }}
                                 </span>
                                 {{ end }}
-                            </h3>
+                            </h4>
                             <h4 class="post-subtitle">
                             <span class="post-meta">
                                 <i class="fa fa-calendar-o"></i>&nbsp;
